@@ -5,7 +5,7 @@ class PlayScene : public SceneBase
 {
 public:
 	PlayScene();
-	~PlayScene()override;
+	~PlayScene();
 
 	TAG_SCENE Update()override;
 	void Draw()override;

@@ -5,7 +5,7 @@ class TitleScene : public SceneBase
 {
 public:
 	TitleScene();
-	~TitleScene()override;
+	~TitleScene();
 
 	TAG_SCENE Update()override;
 	void Draw()override;
