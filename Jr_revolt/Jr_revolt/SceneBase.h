@@ -11,7 +11,7 @@ class SceneBase
 {
 public:
 	SceneBase() {};
-	virtual ~SceneBase() = 0;
+	~SceneBase() {};
 
 	virtual TAG_SCENE Update() = 0;
 	virtual void Draw() = 0;

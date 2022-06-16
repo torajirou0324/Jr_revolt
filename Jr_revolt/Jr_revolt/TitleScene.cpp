@@ -10,6 +10,7 @@ TitleScene::~TitleScene()
 
 TAG_SCENE TitleScene::Update()
 {
+	
 	return TAG_SCENE::TAG_NONE;
 }
 

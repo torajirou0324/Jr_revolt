@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "TitleScene.h"
 #include "PlayScene.h"
+#include "Input.h"
 
 SceneManager::SceneManager()
 {
@@ -15,8 +16,10 @@ SceneManager::~SceneManager()
 
 void SceneManager::GameLoop()
 {
-	while (true)
+	Input::GetInstance();
+	while (!Input::IsPress(ESCAPE))
 	{
+		Input::Update();
 		ClearDrawScreen();
 		auto tag = mNowScene->Update();
 		mNowScene->Draw();
@@ -28,6 +31,7 @@ void SceneManager::GameLoop()
 		ClearScene();
 		CreateScene(tag);
 	}
+	Input::DeleteInstance();
 }
 
 void SceneManager::CreateScene(TAG_SCENE tag)
