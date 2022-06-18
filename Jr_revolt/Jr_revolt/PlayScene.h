@@ -1,6 +1,8 @@
 #pragma once
 #include"SceneBase.h"
 
+class Player;
+
 class PlayScene : public SceneBase
 {
 public:
@@ -9,4 +11,7 @@ public:
 
 	TAG_SCENE Update()override;
 	void Draw()override;
+
+private:
+	Player* mPlayer;
 };
