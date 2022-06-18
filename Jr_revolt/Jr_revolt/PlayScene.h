@@ -2,6 +2,7 @@
 #include"SceneBase.h"
 
 class Player;
+class MapManager;
 
 class PlayScene : public SceneBase
 {
@@ -14,4 +15,7 @@ public:
 
 private:
 	Player* mPlayer;
+	MapManager* mMap;
+
+	int img;
 };

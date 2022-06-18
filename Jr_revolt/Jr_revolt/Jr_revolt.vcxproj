@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
@@ -160,6 +161,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h" />
+    <ClInclude Include="MapManager.h" />
+    <ClInclude Include="ObjectForTree.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="SceneBase.h" />

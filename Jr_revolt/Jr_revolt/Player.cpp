@@ -6,11 +6,11 @@
 #include "Player.h"
 #include "Input.h"
 
-Player::Player()
+Player::Player(int x, int y)
 	: mImgNum(0)
 	, mImgCount(0)
-	, mPosX(0)
-	, mPosY(660)
+	, mPosX(x)
+	, mPosY(y)
 	, mSpeed(0)
 	, mVelocity(0.0f)
 	, mJampFlag(true)

@@ -28,6 +28,7 @@ void SceneManager::GameLoop()
 		{
 			continue;
 		}
+		if (tag == TAG_SCENE::TAG_ESCAPE) { break; }
 		ClearScene();
 		CreateScene(tag);
 	}
@@ -43,6 +44,10 @@ void SceneManager::CreateScene(TAG_SCENE tag)
 		break;
 	case TAG_SCENE::TAG_PLAY:
 		mNowScene = new PlayScene;
+		break;
+	case TAG_SCENE::TAG_CLEAR:
+		break;
+	case TAG_SCENE::TAG_OVER:
 		break;
 	case TAG_SCENE::TAG_NONE:
 		break;
