@@ -19,7 +19,11 @@ private:
 
 	int GameNameImg;
 	int mBackImg;
+	int mBackBlackImg;
 	int mExitImg;
 	int mStartImg;
 	int mArrowImg;
+	int mAlphaNum;
+
+	bool mStartFlag;
 };

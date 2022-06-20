@@ -6,12 +6,12 @@
 #include "Player.h"
 #include "Input.h"
 
-Player::Player(int x, int y)
+Player::Player(float x, int y)
 	: mImgNum(0)
 	, mImgCount(0)
 	, mPosX(x)
 	, mPosY(y)
-	, mSpeed(0)
+	, mSpeed(0.0f)
 	, mVelocity(0.0f)
 	, mJampFlag(true)
 	, mAttackFlag(false)
@@ -45,12 +45,12 @@ void Player::Update()
 	{
 		if (Input::IsPressed(LEFT))
 		{
-			mSpeed = -2;
+			mSpeed = -1.5f;
 			mPlayerVecFlag = false;
 		}
 		if (Input::IsPressed(RIGHT))
 		{
-			mSpeed = 2;
+			mSpeed = 1.5f;
 			mPlayerVecFlag = true;
 		}
 		if (Input::NoPressed(LEFT) && Input::NoPressed(RIGHT))
@@ -81,6 +81,8 @@ void Player::Update()
 	if (Input::IsPress(V) && !mAttackFlag)
 	{
 		mAttackFlag = true;
+		mImgNum = 0;
+		mImgCount = 0;
 		mSpeed = 0;
 	}
 
@@ -115,10 +117,6 @@ void Player::Update()
 	}
 	else
 	{
-		if (mImgCount < 0)
-		{
-			mImgCount = 0;
-		}
 		if (mImgCount > 20)
 		{
 			mImgNum++;
@@ -153,11 +151,11 @@ void Player::Draw()
 		// ÉvÉåÉCÉÑÅ[ÇÃâÊëúå¸Ç´îΩì]Ç∑ÇÈÇ©ÇµÇ»Ç¢Ç©
 		if (mPlayerVecFlag)
 		{
-			DrawGraph(mPosX, mPosY, mPlayerAttackImg[mImgNum], TRUE);
+			DrawGraph(mPosX -30, mPosY, mPlayerAttackImg[mImgNum], TRUE);
 		}
 		else
 		{
-			DrawTurnGraph(mPosX, mPosY, mPlayerAttackImg[mImgNum], TRUE);
+			DrawTurnGraph(mPosX -30, mPosY, mPlayerAttackImg[mImgNum], TRUE);
 		}
 	}
 

@@ -17,5 +17,6 @@ private:
 	Player* mPlayer;
 	MapManager* mMap;
 
+	int mStatusImg;
 	int img;
 };

@@ -28,9 +28,9 @@ namespace IKD
 		{
 			m_id = id;
 			m_pCell = nullptr;
-			m_pObject = nullptr;
-			m_pPre = nullptr;
-			m_pNext = nullptr;
+			m_pObject = nullptr;		// 現在の判定対象のオブジェクト
+			m_pPre = nullptr;			// 前回の判定対象のオブジェクト
+			m_pNext = nullptr;			// 次のの判定対象のオブジェクト
 		}
 
 		// デストラクタ
@@ -68,7 +68,7 @@ namespace IKD
 	///////////////////////////
 	// 衝突リスト
 	///////////////////////////
-#define COLLISIONLIST_REALLOCSIZE 192
+#define COLLISIONLIST_REALLOCSIZE 960
 	template<class T>
 	class CollisionList
 	{
