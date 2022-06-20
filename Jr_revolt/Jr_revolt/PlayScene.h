@@ -14,8 +14,8 @@ public:
 	void Draw()override;
 
 private:
-	Player* mPlayer;
-	MapManager* mMap;
+	Player* m_pPlayer;
+	MapManager* m_pMap;
 
 	int mStatusImg;
 	int img;

@@ -1,12 +1,11 @@
 #include <iostream>
-#include <string>
 #include <fstream>
 #include <sstream>
 #include <DxLib.h>
 #include "Player.h"
 #include "Input.h"
 
-Player::Player(float x, int y)
+Player::Player(float x, float y)
 	: mImgNum(0)
 	, mImgCount(0)
 	, mPosX(x)
@@ -17,6 +16,9 @@ Player::Player(float x, int y)
 	, mAttackFlag(false)
 	, mPlayerVecFlag(true)
 {
+	std::ifstream ifs("data/txt/PlayerName.txt");     // ファイル読み取り専用ストリーム
+	std::getline(ifs, mPlayerName);
+
 	// 文字列を使った読み込み
 	const char job[] = "soldier";
 	for (int i = 0; i < 8; i++)
@@ -70,7 +72,7 @@ void Player::Update()
 	if (!mJampFlag)
 	{
 		mVelocity += 0.1f;
-		mPosY += static_cast<int>(mVelocity);
+		mPosY += mVelocity;
 		if (mVelocity > 6.0f)
 		{
 			mVelocity = 6.0f;
@@ -83,8 +85,9 @@ void Player::Update()
 		mAttackFlag = true;
 		mImgNum = 0;
 		mImgCount = 0;
-		mSpeed = 0;
 	}
+
+	if (mAttackFlag && mJampFlag) { mSpeed = 0; }
 
 	// プレイヤーの画像を回す処理
 	if (!mAttackFlag)
@@ -139,11 +142,11 @@ void Player::Draw()
 		// プレイヤーの画像向き反転するかしないか
 		if (mPlayerVecFlag)
 		{
-			DrawGraph(mPosX, mPosY, mPlayerImg[mImgNum], TRUE);
+			DrawGraphF(mPosX, mPosY, mPlayerImg[mImgNum], TRUE);
 		}
 		else
 		{
-			DrawTurnGraph(mPosX, mPosY, mPlayerImg[mImgNum], TRUE);
+			DrawTurnGraphF(mPosX, mPosY, mPlayerImg[mImgNum], TRUE);
 		}
 	}
 	else
@@ -151,11 +154,11 @@ void Player::Draw()
 		// プレイヤーの画像向き反転するかしないか
 		if (mPlayerVecFlag)
 		{
-			DrawGraph(mPosX -30, mPosY, mPlayerAttackImg[mImgNum], TRUE);
+			DrawGraphF(mPosX -30.0f, mPosY, mPlayerAttackImg[mImgNum], TRUE);
 		}
 		else
 		{
-			DrawTurnGraph(mPosX -30, mPosY, mPlayerAttackImg[mImgNum], TRUE);
+			DrawTurnGraphF(mPosX -30.0f, mPosY, mPlayerAttackImg[mImgNum], TRUE);
 		}
 	}
 

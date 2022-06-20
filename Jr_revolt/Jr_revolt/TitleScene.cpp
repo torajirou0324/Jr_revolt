@@ -1,8 +1,9 @@
+#include <fstream>
 #include <DxLib.h>
 #include "TitleScene.h"
 #include "Input.h"
 #include "Player.h"
-#include "MapManager.h"
+#include "Map.h"
 
 TitleScene::TitleScene()
 	: GameNameImg(LoadGraph("data/BackGround/GameName.png"))
@@ -15,7 +16,7 @@ TitleScene::TitleScene()
 	, mStartFlag(false)
 {
 	m_pPlayer = new Player(810,720);
-	m_pMap = new MapManager("data/csv/map0.csv");
+	m_pMap = new Map("data/csv/map0.csv");
 }
 
 TitleScene::~TitleScene()
@@ -26,28 +27,37 @@ TitleScene::~TitleScene()
 
 TAG_SCENE TitleScene::Update()
 {
-	if (!mStartFlag)
-	{
-		m_pPlayer->Update();
-	}
-
 	// プレイヤーのX座標が1920を超えたら次のシーン遷移の準備をする
-	if (m_pPlayer->GetPosX() > 1920)
+	if (m_pPlayer->GetPosX() > 1890.0f)
 	{
 		mStartFlag = true;
 	}
+
 	// 次のシーンへ行くとき画面を暗転させる
 	if (mStartFlag)
 	{
 		mAlphaNum++;
 		if (mAlphaNum == 255)
 		{
+			SetFontSize(32);
+			char string[10];
+			DrawString(700, 500, "名前を決めろ（半角英字で10桁）", GetColor(255, 255, 255), 0U);
+			KeyInputString(700, 540, 10, string, TRUE);
+			std::ofstream ofs("data/txt/PlayerName.txt");
+			ofs << string;
 			return TAG_SCENE::TAG_PLAY;
 		}
 	}
+	else
+	{
+		m_pPlayer->Update();
+		auto px = m_pPlayer->GetPosX();
+		auto py = m_pPlayer->GetPosY();
+		m_pPlayer->SetJumpFlag(m_pMap->Collision(px, py));
+	}
 	
 	// ゲーム終了する情報を返す
-	if (m_pPlayer->GetPosX() < -150) { return TAG_SCENE::TAG_ESCAPE; }
+	if (m_pPlayer->GetPosX() < -120.0f) { return TAG_SCENE::TAG_ESCAPE; }
 
 	// シーンが切り替わらない情報を返す
 	return TAG_SCENE::TAG_NONE;

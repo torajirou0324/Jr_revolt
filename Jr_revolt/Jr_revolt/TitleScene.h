@@ -2,7 +2,7 @@
 #include"SceneBase.h"
 
 class Player;
-class MapManager;
+class Map;
 
 class TitleScene : public SceneBase
 {
@@ -15,7 +15,7 @@ public:
 
 private:
 	Player* m_pPlayer;
-	MapManager* m_pMap;
+	Map* m_pMap;
 
 	int GameNameImg;
 	int mBackImg;
