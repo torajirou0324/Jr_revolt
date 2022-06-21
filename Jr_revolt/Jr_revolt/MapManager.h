@@ -14,8 +14,8 @@ public:
 	MapManager(std::string str, std::string str1, std::string str2);
 	~MapManager();
 
-	bool CollisionManager(float px, float py);
-	bool Collision(float px, float py,int i,int j,int MapPosX);
+	bool CollisionManager(int px, int py);
+	bool Collision(int px, int py,int i,int j,int MapPosX);
 	void Draw();
 	void MapXAdd();
 	void MapXSub();

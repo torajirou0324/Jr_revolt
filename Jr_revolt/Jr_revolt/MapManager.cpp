@@ -129,7 +129,7 @@ MapManager::~MapManager()
 {
 }
 
-bool MapManager::CollisionManager(float px, float py)
+bool MapManager::CollisionManager(int px, int py)
 {
 	for (int j = 0; j < HEIGHT_MAX; j++)
 	{
@@ -149,14 +149,13 @@ bool MapManager::CollisionManager(float px, float py)
 	return false;
 }
 
-bool MapManager::Collision(float px, float py, int i, int j, int MapPosX)
+bool MapManager::Collision(int px, int py, int i, int j, int MapPosX)
 {
-	if (((i * WIDTH_SIZE + 3 + MapPosX > px + 40 && i * WIDTH_SIZE + 3 + MapPosX < px + 110) ||
-		(px + 40 > i * WIDTH_SIZE + 3 + MapPosX && px + 40 < i * WIDTH_SIZE + WIDTH_SIZE - 3 + MapPosX)) &&
+	if (((i * WIDTH_SIZE + MapPosX >= px + 40 && i * WIDTH_SIZE + MapPosX <= px + 110) ||
+		(px + 40 >= i * WIDTH_SIZE + MapPosX && px + 40 <= i * WIDTH_SIZE + WIDTH_SIZE + MapPosX)) &&
 		((j * HEIGHT_SIZE > py + 121 && j * HEIGHT_SIZE < py + 121 + 59) ||
 			(py + 121 > j * HEIGHT_SIZE && py + 121 < j * HEIGHT_SIZE + (HEIGHT_SIZE / 6))))
 	{
-		//py = i * HEIGHT_SIZE - 179;
 		return true;
 	}
 	else if (((i * WIDTH_SIZE + MapPosX > px + 40 && i * WIDTH_SIZE + MapPosX < px + 110) ||
@@ -164,7 +163,6 @@ bool MapManager::Collision(float px, float py, int i, int j, int MapPosX)
 		((j * HEIGHT_SIZE + 10 > py + 121 && j * HEIGHT_SIZE + 10 < py + 121 + 59) ||
 			(py + 121 > j * HEIGHT_SIZE && py + 121 < j * HEIGHT_SIZE + HEIGHT_SIZE)))
 	{
-		//px = j * WIDTH_SIZE - 109;
 		return true;
 	}
 	else if (((i * WIDTH_SIZE + 158 + MapPosX > px + 40 && i * WIDTH_SIZE + 158 + MapPosX < px + 110) ||
@@ -172,7 +170,6 @@ bool MapManager::Collision(float px, float py, int i, int j, int MapPosX)
 		((j * HEIGHT_SIZE + 10 > py + 121 && j * HEIGHT_SIZE + 10 < py + 91 + 59) ||
 			(py + 91 > j * HEIGHT_SIZE && py + 91 < j * HEIGHT_SIZE + HEIGHT_SIZE)))
 	{
-		//px = j * WIDTH_SIZE + 91;
 		return true;
 	}
 	else
