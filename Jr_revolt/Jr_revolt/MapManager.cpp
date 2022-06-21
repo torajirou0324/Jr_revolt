@@ -75,46 +75,44 @@ MapManager::MapManager(std::string str, std::string str1, std::string str2)
 		{
 			// ‹æØ‚ç‚ê‚½•¶Žš‚ªtmp‚É“ü‚é
 			mData[numY][numX] = std::atoi(tmp.c_str());
-			mData2[numY][numX] = std::atoi(tmp.c_str());
-			mData3[numY][numX] = std::atoi(tmp.c_str());
 			numX++;
 		}
 		numY++;
 	}
 
-	//numY = 0;
-	//while (std::getline(ifs, file))
-	//{
-	//	int numX = 0;
-	//	std::string tmp = "";
-	//	std::istringstream i_stream(file);
+	numY = 0;
+	while (std::getline(ifs1, file))
+	{
+		int numX = 0;
+		std::string tmp = "";
+		std::istringstream i_stream(file);
 
-	//	// ‹æØ‚è•¶Žš‚ª–³‚­‚È‚é‚Ü‚Å•¶Žš—ñ‚ð‹æØ‚Á‚Ä‚¢‚­
-	//	while (std::getline(i_stream, tmp, ','))
-	//	{
-	//		// ‹æØ‚ç‚ê‚½•¶Žš‚ªtmp‚É“ü‚é
-	//		mData2[numY][numX] = std::atoi(tmp.c_str());
-	//		numX++;
-	//	}
-	//	numY++;
-	//}
+		// ‹æØ‚è•¶Žš‚ª–³‚­‚È‚é‚Ü‚Å•¶Žš—ñ‚ð‹æØ‚Á‚Ä‚¢‚­
+		while (std::getline(i_stream, tmp, ','))
+		{
+			// ‹æØ‚ç‚ê‚½•¶Žš‚ªtmp‚É“ü‚é
+			mData2[numY][numX] = std::atoi(tmp.c_str());
+			numX++;
+		}
+		numY++;
+	}
 
-	//numY = 0;
-	//while (std::getline(ifs, file))
-	//{
-	//	int numX = 0;
-	//	std::string tmp = "";
-	//	std::istringstream i_stream(file);
+	numY = 0;
+	while (std::getline(ifs2, file))
+	{
+		int numX = 0;
+		std::string tmp = "";
+		std::istringstream i_stream(file);
 
-	//	// ‹æØ‚è•¶Žš‚ª–³‚­‚È‚é‚Ü‚Å•¶Žš—ñ‚ð‹æØ‚Á‚Ä‚¢‚­
-	//	while (std::getline(i_stream, tmp, ','))
-	//	{
-	//		// ‹æØ‚ç‚ê‚½•¶Žš‚ªtmp‚É“ü‚é
-	//		mData3[numY][numX] = std::atoi(tmp.c_str());
-	//		numX++;
-	//	}
-	//	numY++;
-	//}
+		// ‹æØ‚è•¶Žš‚ª–³‚­‚È‚é‚Ü‚Å•¶Žš—ñ‚ð‹æØ‚Á‚Ä‚¢‚­
+		while (std::getline(i_stream, tmp, ','))
+		{
+			// ‹æØ‚ç‚ê‚½•¶Žš‚ªtmp‚É“ü‚é
+			mData3[numY][numX] = std::atoi(tmp.c_str());
+			numX++;
+		}
+		numY++;
+	}
 
 	// •¶Žš—ñ‚ðŽg‚Á‚½“Ç‚Ýž‚Ý
 	const char job[] = "mapTip";
@@ -161,7 +159,7 @@ bool MapManager::Collision(float px, float py, int i, int j, int MapPosX)
 		//py = i * HEIGHT_SIZE - 179;
 		return true;
 	}
-	if (((i * WIDTH_SIZE + MapPosX > px + 40 && i * WIDTH_SIZE + MapPosX < px + 110) ||
+	else if (((i * WIDTH_SIZE + MapPosX > px + 40 && i * WIDTH_SIZE + MapPosX < px + 110) ||
 		(px + 40 > i * WIDTH_SIZE + MapPosX && px + 40 < i * WIDTH_SIZE + 2 + MapPosX)) &&
 		((j * HEIGHT_SIZE + 10 > py + 121 && j * HEIGHT_SIZE + 10 < py + 121 + 59) ||
 			(py + 121 > j * HEIGHT_SIZE && py + 121 < j * HEIGHT_SIZE + HEIGHT_SIZE)))
@@ -169,7 +167,7 @@ bool MapManager::Collision(float px, float py, int i, int j, int MapPosX)
 		//px = j * WIDTH_SIZE - 109;
 		return true;
 	}
-	if (((i * WIDTH_SIZE + 158 + MapPosX > px + 40 && i * WIDTH_SIZE + 158 + MapPosX < px + 110) ||
+	else if (((i * WIDTH_SIZE + 158 + MapPosX > px + 40 && i * WIDTH_SIZE + 158 + MapPosX < px + 110) ||
 		(px + 40 > i * WIDTH_SIZE + 158 + MapPosX && px + 40 < i * WIDTH_SIZE + 158 + 2 + MapPosX)) &&
 		((j * HEIGHT_SIZE + 10 > py + 121 && j * HEIGHT_SIZE + 10 < py + 91 + 59) ||
 			(py + 91 > j * HEIGHT_SIZE && py + 91 < j * HEIGHT_SIZE + HEIGHT_SIZE)))
@@ -177,7 +175,10 @@ bool MapManager::Collision(float px, float py, int i, int j, int MapPosX)
 		//px = j * WIDTH_SIZE + 91;
 		return true;
 	}
-	return false;
+	else
+	{
+		return false;
+	}
 }
 
 void MapManager::Draw()
@@ -194,4 +195,18 @@ void MapManager::Draw()
 			DrawGraph(i * 120 + mDataX3, j * 90, mMapTip[num], TRUE);
 		}
 	}
+}
+
+void MapManager::MapXAdd()
+{
+	mDataX++;
+	mDataX2++;
+	mDataX3++;
+}
+
+void MapManager::MapXSub()
+{
+	mDataX--;
+	mDataX2--;
+	mDataX3--;
 }

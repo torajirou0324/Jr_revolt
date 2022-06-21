@@ -7,6 +7,7 @@
 SceneManager::SceneManager()
 {
 	CreateScene(TAG_SCENE::TAG_TITLE);
+	GameLoop();
 }
 
 SceneManager::~SceneManager()

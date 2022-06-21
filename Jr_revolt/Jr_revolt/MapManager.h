@@ -17,15 +17,13 @@ public:
 	bool CollisionManager(float px, float py);
 	bool Collision(float px, float py,int i,int j,int MapPosX);
 	void Draw();
+	void MapXAdd();
+	void MapXSub();
 
 	// セッター
-	void SetPosX(const int& _x) { mDataX = _x; }
-	void SetPosX2(const int& _x) { mDataX2 = _x; }
-	void SetPosX3(const int& _x) { mDataX3 = _x; }
 
 	// ゲッター
 	const int& GetPosX() const { return mDataX; }
-	const int& GetPosX2() const { return mDataX2; }
 	const int& GetPosX3() const { return mDataX3; }
 private:
 	int mData[HEIGHT_MAX][WIDTH_MAX];

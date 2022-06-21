@@ -4,8 +4,9 @@
 #include "MapManager.h"
 
 PlayScene::PlayScene()
-	: img(LoadGraph("data/Enemy/Knight/Knight0.png"))
-	, mStatusImg(LoadGraph("data/BackGround/StatusImg.png"))
+	: mStatusImg(LoadGraph("data/BackGround/StatusImg.png"))
+	, mLeftEndFlag(false)
+	, mRightEndFlag(false)
 {
 	m_pPlayer = new Player(0, 810);
 	m_pMap = new MapManager("data/csv/map1.csv", "data/csv/map2.csv", "data/csv/map2.csv");
@@ -21,40 +22,50 @@ PlayScene::~PlayScene()
 TAG_SCENE PlayScene::Update()
 {
 	m_pPlayer->Update();
-	auto px = m_pPlayer->GetPosX();
-	auto py = m_pPlayer->GetPosY();
-	if (m_pPlayer->GetPosX() > 640)
+
+	if (m_pPlayer->GetPosX() > 1770)
 	{
-		m_pPlayer->SetPosX(640);
-		if(m_pMap->GetPosX3() > 0)
-		{
-			auto num = m_pMap->GetPosX();
-			num--;
-			m_pMap->SetPosX(num);
-			num = m_pMap->GetPosX2();
-			num--;
-			m_pMap->SetPosX2(num);
-			num = m_pMap->GetPosX3();
-			num--;
-			m_pMap->SetPosX3(num);
-		}
+		m_pPlayer->SetPosX(1770);
 	}
 	if (m_pPlayer->GetPosX() < 0)
 	{
 		m_pPlayer->SetPosX(0);
-		if (m_pMap->GetPosX() < 0)
+	}
+	if (m_pPlayer->GetPosX() > 1200 && mRightEndFlag)
+	{
+		m_pPlayer->SetPosX(1200);
+		if(m_pMap->GetPosX3() > 0)
 		{
-			auto num = m_pMap->GetPosX();
-			num++;
-			m_pMap->SetPosX(num);
-			num = m_pMap->GetPosX2();
-			num++;
-			m_pMap->SetPosX2(num);
-			num = m_pMap->GetPosX3();
-			num++;
-			m_pMap->SetPosX3(num);
+			m_pMap->MapXSub();
+		}
+		else
+		{
+			mRightEndFlag = false;
 		}
 	}
+	if (m_pMap->GetPosX3() > 720)
+	{
+		mRightEndFlag = true;
+	}
+	if (m_pPlayer->GetPosX() < 600 && mLeftEndFlag)
+	{
+		m_pPlayer->SetPosX(600);
+		if (m_pMap->GetPosX() < 0)
+		{
+			m_pMap->MapXAdd();
+		}
+		else
+		{
+			mLeftEndFlag = false;
+		}
+	}
+	if (m_pMap->GetPosX() < -600)
+	{
+		mLeftEndFlag = true;
+
+	}
+	auto px = m_pPlayer->GetPosX();
+	auto py = m_pPlayer->GetPosY();
 	m_pPlayer->SetJumpFlag(m_pMap->CollisionManager(px, py));
 
 	return TAG_SCENE::TAG_NONE;
@@ -64,7 +75,6 @@ void PlayScene::Draw()
 {
 	m_pMap->Draw();
 	DrawGraph(0, 0, mStatusImg, FALSE);
-	DrawGraph(1000, 810, img, TRUE);
 	DrawFormatString(20, 10, GetColor(255, 255, 255), "%s", m_pPlayer->GetPlayerName().c_str());
 	m_pPlayer->Draw();
 }

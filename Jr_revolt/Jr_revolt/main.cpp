@@ -16,7 +16,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
 	SceneManager* SMG = new SceneManager;
 
-	SMG->GameLoop();
 	delete SMG;
 
 	return 0;
