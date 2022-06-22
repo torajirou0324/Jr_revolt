@@ -16,5 +16,5 @@ public:
 	void Draw();
 private:
 	int mData[HEIGHT_MAX][WIDTH_MAX];
-	int mMapTip[31];
+	int mMapTip[33];
 };

@@ -7,7 +7,7 @@ Input::Input()
 {
 	key k;
 	k.pressCount = 0;
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < END; i++)
 	{
 		keynum.push_back(k);
 	}
@@ -53,6 +53,17 @@ void Input::Update()
 		else
 		{
 			input->keynum[ESCAPE].pressCount = min(--input->keynum[ESCAPE].pressCount, 0);
+		}
+	}
+	// UP
+	{
+		if (CheckHitKey(KEY_INPUT_UP))
+		{
+			input->keynum[UP].pressCount = max(++input->keynum[ESCAPE].pressCount, 1);
+		}
+		else
+		{
+			input->keynum[UP].pressCount = min(--input->keynum[ESCAPE].pressCount, 0);
 		}
 	}
 	// LEFT

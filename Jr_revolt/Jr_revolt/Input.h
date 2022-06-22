@@ -6,10 +6,12 @@ enum TYPE
 {
 	ENTER,
 	ESCAPE,
+	UP,
 	LEFT,
 	RIGHT,
 	SPACE,
-	V
+	V,
+	END
 };
 
 class Input

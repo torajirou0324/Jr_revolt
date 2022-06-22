@@ -47,12 +47,12 @@ void Player::Update()
 	{
 		if (Input::IsPressed(LEFT))
 		{
-			mSpeed = -1.5f;
+			mSpeed = -1.8f;
 			mPlayerVecFlag = false;
 		}
 		if (Input::IsPressed(RIGHT))
 		{
-			mSpeed = 1.5f;
+			mSpeed = 1.8f;
 			mPlayerVecFlag = true;
 		}
 		if (Input::NoPressed(LEFT) && Input::NoPressed(RIGHT))
@@ -63,7 +63,7 @@ void Player::Update()
 	mPosX += mSpeed;
 
 	// 地面についているときジャンプを有効にする
-	if (Input::IsPress(SPACE) && mJampFlag)
+	if (Input::IsPressed(SPACE) && mJampFlag)
 	{
 		mVelocity = -5.5f;
 		mJampFlag = false;
@@ -86,7 +86,6 @@ void Player::Update()
 		mImgNum = 0;
 		mImgCount = 0;
 	}
-
 	if (mAttackFlag && mJampFlag) { mSpeed = 0; }
 
 	// プレイヤーの画像を回す処理

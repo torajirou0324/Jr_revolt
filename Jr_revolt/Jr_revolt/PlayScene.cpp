@@ -9,7 +9,7 @@ PlayScene::PlayScene()
 	, mRightEndFlag(false)
 {
 	m_pPlayer = new Player(0, 810);
-	m_pMap = new MapManager("data/csv/map1.csv", "data/csv/map2.csv", "data/csv/map2.csv");
+	m_pMap = new MapManager(MapScene::MAP_1);
 	SetFontSize(32);
 }
 
@@ -23,27 +23,31 @@ TAG_SCENE PlayScene::Update()
 {
 	m_pPlayer->Update();
 
-	if (m_pPlayer->GetPosX() > 1770)
+	if (m_pPlayer->GetPosX() > 1850)
 	{
-		m_pPlayer->SetPosX(1770);
+		m_pMap->Init(MapScene::MAP_2);
+		if (MapScene::MAP_4 == m_pMap->GetNowMap()) { m_pPlayer->SetPosY(720); }
+		m_pPlayer->SetPosX(0);
+		mLeftEndFlag = false;
 	}
 	if (m_pPlayer->GetPosX() < 0)
 	{
-		m_pPlayer->SetPosX(0);
+		if(MapScene::MAP_1 == m_pMap->GetNowMap()){ m_pPlayer->SetPosX(0); }
+		else {  }
 	}
 	if (m_pPlayer->GetPosX() > 1200 && mRightEndFlag)
 	{
 		m_pPlayer->SetPosX(1200);
 		if(m_pMap->GetPosX3() > 0)
 		{
-			m_pMap->MapXSub();
+			m_pMap->MapXMove(m_pPlayer->GetSpeed());
 		}
 		else
 		{
 			mRightEndFlag = false;
 		}
 	}
-	if (m_pMap->GetPosX3() > 720)
+	if (m_pMap->GetPosX3() > 1)
 	{
 		mRightEndFlag = true;
 	}
@@ -52,14 +56,14 @@ TAG_SCENE PlayScene::Update()
 		m_pPlayer->SetPosX(600);
 		if (m_pMap->GetPosX() < 0)
 		{
-			m_pMap->MapXAdd();
+			m_pMap->MapXMove(m_pPlayer->GetSpeed());
 		}
 		else
 		{
 			mLeftEndFlag = false;
 		}
 	}
-	if (m_pMap->GetPosX() < -600)
+	if (m_pMap->GetPosX() < -1)
 	{
 		mLeftEndFlag = true;
 

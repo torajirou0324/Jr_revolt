@@ -12,12 +12,14 @@ public:
 
 	// セッター
 	void SetPosX(const float& _x) { mPosX = _x; }
+	void SetPosY(const float& _y) { mPosY = _y; }
 	void SetJumpFlag(const bool& _flag) { mJampFlag = _flag; }
 
 	// ゲッター
 	const std::string& GetPlayerName() const { return mPlayerName; }
 	const float& GetPosX() const { return mPosX; }
 	const float& GetPosY() const { return mPosY; }
+	const float& GetSpeed() const { return mSpeed; }
 private:
 	std::string mPlayerName;
 

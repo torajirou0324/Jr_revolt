@@ -37,7 +37,7 @@ Map::Map(std::string str)
 
 	// •¶š—ñ‚ğg‚Á‚½“Ç‚İ‚İ
 	const char job[] = "mapTip";
-	for (int i = 1; i < 31; i++)
+	for (int i = 1; i < 33; i++)
 	{
 		std::stringstream fname;
 		fname << "data/MapTip/" << job << i << ".png";
@@ -61,7 +61,7 @@ bool Map::Collision(float px, float py)
 		for (int i = 0; i < WIDTH_MAX; i++)
 		{
 			auto num = mData[j][i];
-			if (num == 3 || num == 17 || num == 29)
+			if (num == 31 || num == 17 || num == 29)
 			{
 				if (((i * WIDTH_SIZE + 3 > px + 40 && i * WIDTH_SIZE + 3 < px + 110) ||
 					(px + 40 > i * WIDTH_SIZE + 3 && px + 40 < i * WIDTH_SIZE + WIDTH_SIZE - 3)) &&
