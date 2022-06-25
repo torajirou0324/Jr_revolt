@@ -22,9 +22,10 @@ public:
 	~MapManager();
 
 	bool CollisionManager(int px, int py);
-	bool Collision(int px, int py,int i,int j,int MapPosX);
+	bool MapCollision(int px, int py,int i,int j,int MapPosX);
 	void Init(MapScene map);
 	void CreateMap(std::string str, std::string str2, std::string str3);
+	void Update();
 	void Draw();
 	void MapXMove(float speed);
 	MapScene GetNowMap();

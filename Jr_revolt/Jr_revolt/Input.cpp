@@ -28,7 +28,11 @@ void Input::GetInstance()
 
 void Input::DeleteInstance()
 {
-	if (input != nullptr) { delete input; }
+	if (input != nullptr) 
+	{
+		delete input;
+		input = nullptr;
+	}
 }
 
 void Input::Update()
@@ -56,16 +60,16 @@ void Input::Update()
 		}
 	}
 	// UP
-	{
-		if (CheckHitKey(KEY_INPUT_UP))
-		{
-			input->keynum[UP].pressCount = max(++input->keynum[ESCAPE].pressCount, 1);
-		}
-		else
-		{
-			input->keynum[UP].pressCount = min(--input->keynum[ESCAPE].pressCount, 0);
-		}
-	}
+	//{
+	//	if (CheckHitKey(KEY_INPUT_UP))
+	//	{
+	//		input->keynum[UP].pressCount = max(++input->keynum[ESCAPE].pressCount, 1);
+	//	}
+	//	else
+	//	{
+	//		input->keynum[UP].pressCount = min(--input->keynum[ESCAPE].pressCount, 0);
+	//	}
+	//}
 	// LEFT
 	{
 		if (CheckHitKey(KEY_INPUT_LEFT))

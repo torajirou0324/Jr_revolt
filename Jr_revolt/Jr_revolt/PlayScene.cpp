@@ -1,7 +1,9 @@
 #include <DxLib.h>
 #include "PlayScene.h"
 #include "Player.h"
+#include "EnemyManager.h"
 #include "MapManager.h"
+#include "Collision.h"
 
 PlayScene::PlayScene()
 	: mStatusImg(LoadGraph("data/BackGround/StatusImg.png"))
@@ -9,19 +11,24 @@ PlayScene::PlayScene()
 	, mRightEndFlag(false)
 {
 	m_pPlayer = new Player(0, 810);
+	m_pEnemyManager = new EnemyManager;
 	m_pMap = new MapManager(MapScene::MAP_1);
 	SetFontSize(32);
+
 }
 
 PlayScene::~PlayScene()
 {
 	delete m_pPlayer;
+	delete m_pEnemyManager;
 	delete m_pMap;
 }
 
 TAG_SCENE PlayScene::Update()
 {
 	m_pPlayer->Update();
+	m_pEnemyManager->Update();
+	m_pMap->Update();
 
 	if (m_pPlayer->GetPosX() > 1850)
 	{
@@ -35,9 +42,9 @@ TAG_SCENE PlayScene::Update()
 		if(MapScene::MAP_1 == m_pMap->GetNowMap()){ m_pPlayer->SetPosX(0); }
 		else {  }
 	}
-	if (m_pPlayer->GetPosX() > 1200 && mRightEndFlag)
+	if (m_pPlayer->GetPosX() + m_pMap->GetPosX() > 1200 && mRightEndFlag)
 	{
-		m_pPlayer->SetPosX(1200);
+		Collision::MapMove(true);
 		if(m_pMap->GetPosX3() > 0)
 		{
 			m_pMap->MapXMove(m_pPlayer->GetSpeed());
@@ -47,13 +54,16 @@ TAG_SCENE PlayScene::Update()
 			mRightEndFlag = false;
 		}
 	}
+	else
+	{
+		Collision::MapMove(false);
+	}
 	if (m_pMap->GetPosX3() > 1)
 	{
 		mRightEndFlag = true;
 	}
-	if (m_pPlayer->GetPosX() < 600 && mLeftEndFlag)
+	if (m_pPlayer->GetPosX() + m_pMap->GetPosX() < 600 && mLeftEndFlag)
 	{
-		m_pPlayer->SetPosX(600);
 		if (m_pMap->GetPosX() < 0)
 		{
 			m_pMap->MapXMove(m_pPlayer->GetSpeed());
@@ -63,7 +73,7 @@ TAG_SCENE PlayScene::Update()
 			mLeftEndFlag = false;
 		}
 	}
-	if (m_pMap->GetPosX() < -1)
+	if (m_pMap->GetPosX() < m_pMap->GetPosX())
 	{
 		mLeftEndFlag = true;
 
@@ -80,5 +90,6 @@ void PlayScene::Draw()
 	m_pMap->Draw();
 	DrawGraph(0, 0, mStatusImg, FALSE);
 	DrawFormatString(20, 10, GetColor(255, 255, 255), "%s", m_pPlayer->GetPlayerName().c_str());
+	m_pEnemyManager->Draw();
 	m_pPlayer->Draw();
 }

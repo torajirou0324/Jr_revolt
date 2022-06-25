@@ -3,6 +3,7 @@
 #include <string>
 #include <DxLib.h>
 #include "MapManager.h"
+#include "Collision.h"
 
 MapManager::MapManager(MapScene map)
 {
@@ -31,24 +32,24 @@ bool MapManager::CollisionManager(int px, int py)
 			auto num = mData[j][i];
 			if (num == 3 || num == 4 || num == 5 || num == 6 || num == 7 || num == 8 || num == 13 || num == 15)
 			{
-				if (Collision(px, py, i, j, mDataX)) { return true; }
+				if (MapCollision(px, py, i, j, mDataX)) { return true; }
 			}
 			num = mData2[j][i];
 			if (num == 3 || num == 4 || num == 5 || num == 6 || num == 7 || num == 8 || num == 13 || num == 15)
 			{
-				if (Collision(px, py, i, j, mDataX2)) { return true; }
+				if (MapCollision(px, py, i, j, mDataX2)) { return true; }
 			}
 			num = mData3[j][i];
 			if (num == 3 || num == 4 || num == 5 || num == 6 || num == 7 || num == 8 || num == 13 || num == 15)
 			{
-				if (Collision(px, py, i, j, mDataX3)) { return true; }
+				if (MapCollision(px, py, i, j, mDataX3)) { return true; }
 			}
 		}
 	}
 	return false;
 }
 
-bool MapManager::Collision(int px, int py, int i, int j, int MapPosX)
+bool MapManager::MapCollision(int px, int py, int i, int j, int MapPosX)
 {
 	if (((i * WIDTH_SIZE + MapPosX >= px + 40 && i * WIDTH_SIZE + MapPosX <= px + 110) ||
 		(px + 40 >= i * WIDTH_SIZE + MapPosX && px + 40 <= i * WIDTH_SIZE + WIDTH_SIZE + MapPosX)) &&
@@ -167,6 +168,11 @@ void MapManager::CreateMap(std::string str, std::string str2, std::string str3)
 		}
 		numY++;
 	}
+}
+
+void MapManager::Update()
+{
+	Collision::MapUpdate(mDataX, mDataX3);
 }
 
 void MapManager::Draw()

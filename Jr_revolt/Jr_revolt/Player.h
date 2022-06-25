@@ -20,6 +20,7 @@ public:
 	const float& GetPosX() const { return mPosX; }
 	const float& GetPosY() const { return mPosY; }
 	const float& GetSpeed() const { return mSpeed; }
+	const bool& GetDamageFlag()const { return mDamageFlag; }
 private:
 	std::string mPlayerName;
 
@@ -36,4 +37,5 @@ private:
 	bool mJampFlag;
 	bool mAttackFlag;
 	bool mPlayerVecFlag;
+	bool mDamageFlag;
 };

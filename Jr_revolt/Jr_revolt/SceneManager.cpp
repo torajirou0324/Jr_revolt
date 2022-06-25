@@ -3,6 +3,7 @@
 #include "TitleScene.h"
 #include "PlayScene.h"
 #include "Input.h"
+#include "Collision.h"
 
 SceneManager::SceneManager()
 {
@@ -18,6 +19,7 @@ SceneManager::~SceneManager()
 void SceneManager::GameLoop()
 {
 	Input::GetInstance();
+	Collision::GetInstance();
 	while (!Input::IsPress(ESCAPE))
 	{
 		Input::Update();
@@ -34,6 +36,7 @@ void SceneManager::GameLoop()
 		CreateScene(tag);
 	}
 	Input::DeleteInstance();
+	Collision::DeleteInstance();
 }
 
 void SceneManager::CreateScene(TAG_SCENE tag)

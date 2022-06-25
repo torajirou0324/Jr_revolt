@@ -6,7 +6,7 @@ enum TYPE
 {
 	ENTER,
 	ESCAPE,
-	UP,
+	//UP,
 	LEFT,
 	RIGHT,
 	SPACE,

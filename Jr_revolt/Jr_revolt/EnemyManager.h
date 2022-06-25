@@ -8,7 +8,7 @@ enum EnemyName
 	KNIGHT
 };
 
-class Enemy;
+class ZombiManager;
 
 class EnemyManager
 {
@@ -19,5 +19,5 @@ public:
 	void Update();
 	void Draw();
 private:
-	Enemy* m_pEnemy;
+	ZombiManager* m_pZombi;
 };

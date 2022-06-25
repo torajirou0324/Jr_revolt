@@ -4,6 +4,7 @@
 #include <DxLib.h>
 #include "Player.h"
 #include "Input.h"
+#include "Collision.h"
 
 Player::Player(float x, float y)
 	: mImgNum(0)
@@ -15,6 +16,7 @@ Player::Player(float x, float y)
 	, mJampFlag(true)
 	, mAttackFlag(false)
 	, mPlayerVecFlag(true)
+	, mDamageFlag(false)
 {
 	std::ifstream ifs("data/txt/PlayerName.txt");     // ファイル読み取り専用ストリーム
 	std::getline(ifs, mPlayerName);
@@ -62,6 +64,9 @@ void Player::Update()
 	}
 	mPosX += mSpeed;
 
+	// プレイヤーと敵が当たっているかどうかの取得
+	mDamageFlag = Collision::GetPlayerDamageFlag();
+
 	// 地面についているときジャンプを有効にする
 	if (Input::IsPressed(SPACE) && mJampFlag)
 	{
@@ -87,6 +92,8 @@ void Player::Update()
 		mImgCount = 0;
 	}
 	if (mAttackFlag && mJampFlag) { mSpeed = 0; }
+	//　プレイヤーが攻撃しているかしていないかをセット
+	Collision::PlayerAttackFlag(mAttackFlag);
 
 	// プレイヤーの画像を回す処理
 	if (!mAttackFlag)
@@ -130,6 +137,14 @@ void Player::Update()
 			}
 		}
 		mImgCount++;
+		if (mImgNum == 3)
+		{
+			Collision::PlayerAttackFlag(true);
+		}
+		else
+		{
+			Collision::PlayerAttackFlag(false);
+		}
 	}
 }
 
@@ -160,5 +175,5 @@ void Player::Draw()
 			DrawTurnGraphF(mPosX -30.0f, mPosY, mPlayerAttackImg[mImgNum], TRUE);
 		}
 	}
-
+	DrawFormatString(20, 500, GetColor(255, 255, 255), "%d", Collision::GetMapX());
 }
