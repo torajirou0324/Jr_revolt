@@ -44,8 +44,8 @@ Player::~Player()
 
 void Player::Update()
 {
-	// プレイヤーの移動処理(ジャンプ中は移動を受付ない)
-	if (mJampFlag && !mAttackFlag)
+	// プレイヤーの移動処理(ジャンプ中・攻撃中・被弾中は移動を受付ない)
+	if (mJampFlag && !mAttackFlag && !mDamageFlag)
 	{
 		if (Input::IsPressed(LEFT))
 		{
@@ -63,6 +63,8 @@ void Player::Update()
 		}
 	}
 	mPosX += mSpeed;
+	//if (mPosX < 0) { mPosX = 0.0f; }
+	//if (mPosX > 1770) { mPosX = 1770.0f; }
 
 	// プレイヤーと敵が当たっているかどうかの取得
 	mDamageFlag = Collision::GetPlayerDamageFlag();
@@ -146,6 +148,8 @@ void Player::Update()
 			Collision::PlayerAttackFlag(false);
 		}
 	}
+
+	Collision::PlayerUpdate(mPosX, mPosY);
 }
 
 void Player::Draw()
@@ -175,5 +179,4 @@ void Player::Draw()
 			DrawTurnGraphF(mPosX -30.0f, mPosY, mPlayerAttackImg[mImgNum], TRUE);
 		}
 	}
-	DrawFormatString(20, 500, GetColor(255, 255, 255), "%d", Collision::GetMapX());
 }

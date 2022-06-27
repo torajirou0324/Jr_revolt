@@ -13,6 +13,7 @@ public:
 
 	TAG_SCENE Update()override;
 	void Draw()override;
+	void MapMove();
 
 private:
 	Player* m_pPlayer;

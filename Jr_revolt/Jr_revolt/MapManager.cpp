@@ -170,11 +170,6 @@ void MapManager::CreateMap(std::string str, std::string str2, std::string str3)
 	}
 }
 
-void MapManager::Update()
-{
-	Collision::MapUpdate(mDataX, mDataX3);
-}
-
 void MapManager::Draw()
 {
 	for (auto i = 0; i < 3.0f; i++)

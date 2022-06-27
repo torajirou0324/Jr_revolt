@@ -5,13 +5,10 @@ class Collision
 	static Collision* AABB;
 	int mPlayerX;
 	int mPlayerY;
-	int mMapX;
-	int mMapX3;
 
 	bool mPlayerAttackFlag;
 	bool mPlayerDamageFlag;
 	bool mEnemyDamageFlag;
-	bool mMapMoveFlag;
 public:
 	// コピー禁止
 	Collision(const Collision&) = delete;
@@ -34,23 +31,14 @@ public:
 	}
 
 	// セッター
-	static void PlayerUpdate(const int& _playerX, const int& _playerY,const int& _mapX,const int& _mapY)
+	static void PlayerUpdate(const int& _playerX, const int& _playerY)
 	{
 		AABB->mPlayerX = _playerX;
 		AABB->mPlayerY = _playerY;
 	}
-	static void MapUpdate(const int& _mapX, const int& _mapX3)
-	{
-		AABB->mMapX = _mapX;
-		AABB->mMapX3 = _mapX3;
-	}
 	static void PlayerAttackFlag(const bool& _playerAttackFlag)
 	{
 		AABB->mPlayerAttackFlag = _playerAttackFlag;
-	}
-	static void MapMove(const bool& _flag)
-	{
-		AABB->mMapMoveFlag = _flag;
 	}
 
 	// ゲッター
@@ -84,9 +72,6 @@ public:
 	}
 	const static int& GetPlayerX() { return AABB->mPlayerX; }
 	const static int& GetPlayerY() { return AABB->mPlayerY; }
-	const static int& GetMapX() { return AABB->mMapX; }
-	const static int& GetMapX3() { return AABB->mMapX3; }
 	const static bool& GetPlayerDamageFlag() { return AABB->mPlayerDamageFlag; }
 	const static bool& GetAttackFlag() { return AABB->mPlayerAttackFlag; }
-	const static bool& GetMapMoveFlag() { return AABB->mMapMoveFlag; }
 };

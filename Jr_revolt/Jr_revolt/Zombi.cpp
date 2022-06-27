@@ -36,23 +36,23 @@ void Zombi::Update()
 			mFallFlag = false;
 		}
 	}
-	if (mVecFlag)
-	{
-		mPosX--;
-	}
 	else
 	{
-		mPosX++;
+		if (mVecFlag)
+		{
+			mPosX--;
+		}
+		else
+		{
+			mPosX++;
+		}
 	}
-	if (Collision::GetMapMoveFlag)
-	{
-		mPosX = mPosX + Collision::GetMapX();
-	}
-	if (mPosX < Collision::GetMapX())
+
+	if (mPosX < 0)
 	{
 		mVecFlag = false;
 	}
-	if (mPosX > 3840 + Collision::GetMapX3())
+	if (mPosX > 3750)
 	{
 		mVecFlag = true;
 	}
