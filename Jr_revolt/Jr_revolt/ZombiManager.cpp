@@ -6,6 +6,7 @@
 #include "Zombi.h"
 
 ZombiManager::ZombiManager()
+	: mMapPosX(0)
 {
 	// •¶Žš—ñ‚ðŽg‚Á‚½“Ç‚Ýž‚Ý
 	const char job[] = "zonbi_idou";
@@ -50,6 +51,7 @@ void ZombiManager::Update()
 {
 	for (auto it : m_pZombi)
 	{
+		it->SetMapPosX(mMapPosX);
 		it->Update();
 	}
 }

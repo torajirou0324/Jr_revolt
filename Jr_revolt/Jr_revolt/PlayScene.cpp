@@ -26,6 +26,7 @@ PlayScene::~PlayScene()
 TAG_SCENE PlayScene::Update()
 {
 	m_pPlayer->Update();
+	m_pEnemyManager->SetMapPosX(m_pMap->GetPosX());
 	m_pEnemyManager->Update();
 
 	// ƒ}ƒbƒvˆÚ“®”»’è
@@ -68,6 +69,11 @@ void PlayScene::MapMove()
 	{
 		m_pPlayer->SetPosX(1200.0f);
 		m_pMap->MapXMove(m_pPlayer->GetSpeed());
+		Collision::SetMapMoveRightFlag(true);
+	}
+	else
+	{
+		Collision::SetMapMoveRightFlag(false);
 	}
 	if (m_pMap->GetPosX3() > 1)
 	{
@@ -83,6 +89,11 @@ void PlayScene::MapMove()
 	{
 		m_pPlayer->SetPosX(600.0f);
 		m_pMap->MapXMove(m_pPlayer->GetSpeed());
+		Collision::SetMapMoveLeftFlag(true);
+	}
+	else
+	{
+	Collision::SetMapMoveLeftFlag(false);
 	}
 	if (m_pMap->GetPosX() < -0.1f)
 	{

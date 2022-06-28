@@ -7,6 +7,7 @@ Zombi::Zombi(int posX, int posY)
 	mPosY = posY;
 	mImgNum = 0;
 	mCount = 0;
+	mMapPosX = 0;
 	mVelocity = 0.0f;
 	mFallFlag = true;
 	mVecFlag = true;
@@ -38,7 +39,29 @@ void Zombi::Update()
 	}
 	else
 	{
-		if (mVecFlag)
+		if (Collision::GetMapMoveLeftFlag())
+		{
+			if (mVecFlag)
+			{
+				mPosX -= 1.5;
+			}
+			else
+			{
+				mPosX += 1.5;
+			}
+		}
+		else if (Collision::GetMapMoveRightFlag())
+		{
+			if (mVecFlag)
+			{
+
+			}
+			else
+			{
+
+			}
+		}
+		else if (mVecFlag)
 		{
 			mPosX--;
 		}
@@ -47,13 +70,14 @@ void Zombi::Update()
 			mPosX++;
 		}
 	}
-
-	if (mPosX < 0)
+	if (mPosX < mMapPosX)
 	{
+		mPosX = mMapPosX;
 		mVecFlag = false;
 	}
-	if (mPosX > 3750)
+	if (mPosX > mMapPosX + 3760)
 	{
+		mPosX = mMapPosX + 3760;
 		mVecFlag = true;
 	}
 	// 地面についているときジャンプを有効にする

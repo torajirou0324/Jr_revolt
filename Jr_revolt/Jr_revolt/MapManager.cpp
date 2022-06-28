@@ -191,6 +191,7 @@ void MapManager::Draw()
 
 		}
 	}
+	DrawFormatString(500, 1000, GetColor(255, 255, 255), "%f", mDataX);
 }
 
 void MapManager::MapXMove(float speed)
@@ -198,6 +199,7 @@ void MapManager::MapXMove(float speed)
 	mDataX -= speed;
 	mDataX2 -= speed;
 	mDataX3 -= speed;
+	Collision::SetMapPosX(mDataX, mDataX3);
 }
 
 MapScene MapManager::GetNowMap()

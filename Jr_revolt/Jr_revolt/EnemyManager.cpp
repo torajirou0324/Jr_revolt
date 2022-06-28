@@ -2,6 +2,7 @@
 #include "ZombiManager.h"
 
 EnemyManager::EnemyManager()
+	: mMapPosX(0)
 {
 	m_pZombi = new ZombiManager;
 }
@@ -13,6 +14,7 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::Update()
 {
+	m_pZombi->SetMapPosX(mMapPosX);
 	m_pZombi->Update();
 }
 
