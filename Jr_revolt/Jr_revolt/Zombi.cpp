@@ -1,4 +1,5 @@
 #include "Zombi.h"
+#include "MapManager.h"
 #include "Collision.h"
 
 Zombi::Zombi(int posX, int posY)
@@ -7,10 +8,11 @@ Zombi::Zombi(int posX, int posY)
 	mPosY = posY;
 	mImgNum = 0;
 	mCount = 0;
-	mMapPosX = 0;
 	mVelocity = 0.0f;
 	mFallFlag = true;
 	mVecFlag = true;
+	mMoveFlag = true;
+	mAttackFlag = false;
 }
 
 Zombi::~Zombi()
@@ -27,15 +29,19 @@ void Zombi::Update()
 		{
 			if (Collision::GetPlayerX() < mPosX)
 			{
-				mPosX += 10;
+				mPosX += 20.0f;
 			}
 			else
 			{
-				mPosX -= 10;
+				mPosX -= 20.0f;
 			}
 			mVelocity = -3.5f;
 			mFallFlag = false;
 		}
+	}
+	if (Collision::GetPlayerDamageFlag())
+	{
+
 	}
 	else
 	{
@@ -43,48 +49,50 @@ void Zombi::Update()
 		{
 			if (mVecFlag)
 			{
-				mPosX -= 1.5;
+				mPosX += 0.5f;
 			}
 			else
 			{
-				mPosX += 1.5;
+				mPosX += 2.5f;
 			}
 		}
-		else if (Collision::GetMapMoveRightFlag())
+		if (Collision::GetMapMoveRightFlag())
 		{
 			if (mVecFlag)
 			{
-
+				mPosX -= 2.5f;
 			}
 			else
 			{
-
+				mPosX -= 0.5f;
 			}
 		}
-		else if (mVecFlag)
+		if (!Collision::GetMapMoveLeftFlag() && !Collision::GetMapMoveRightFlag())
 		{
-			mPosX--;
-		}
-		else
-		{
-			mPosX++;
+			if (mVecFlag)
+			{
+				mPosX--;
+			}
+			else
+			{
+				mPosX++;
+			}
 		}
 	}
-	if (mPosX < mMapPosX)
+
+	auto MapFrontX = MapManager::GetMapPosX();
+	if (mPosX < MapFrontX)
 	{
-		mPosX = mMapPosX;
+		mPosX = MapFrontX;
 		mVecFlag = false;
 	}
-	if (mPosX > mMapPosX + 3760)
+	MapFrontX = MapManager::GetMap3PosX();
+	if (mPosX > MapFrontX + 1920.0f)
 	{
-		mPosX = mMapPosX + 3760;
+		mPosX = MapFrontX + 1920.0f;
 		mVecFlag = true;
 	}
-	// 地面についているときジャンプを有効にする
-	if (mFallFlag)
-	{
-		mVelocity = -5.5f;
-	}
+	mFallFlag = MapManager::CollisionManager(mPosX, mPosY);
 	// 空中にいるとき
 	if (!mFallFlag)
 	{
@@ -94,5 +102,16 @@ void Zombi::Update()
 		{
 			mVelocity = 6.0f;
 		}
+	}
+
+	mCount++;
+	if (mCount > 20)
+	{
+		mImgNum++;
+		if (mImgNum > 5 && mMoveFlag)
+		{
+			mImgNum = 0;
+		}
+		mCount = 0;
 	}
 }

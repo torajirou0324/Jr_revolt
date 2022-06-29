@@ -7,12 +7,14 @@
 
 PlayScene::PlayScene()
 	: mStatusImg(LoadGraph("data/BackGround/StatusImg.png"))
+	, mConfigImg(LoadGraph("data/BackGround/Config.png"))
 	, mLeftEndFlag(false)
 	, mRightEndFlag(false)
 {
 	m_pPlayer = new Player(0, 810);
 	m_pEnemyManager = new EnemyManager;
-	m_pMap = new MapManager(MapScene::MAP_1);
+	MapManager::GetInstance();
+	MapManager::Init(MapScene::MAP_1);
 	SetFontSize(32);
 }
 
@@ -20,13 +22,12 @@ PlayScene::~PlayScene()
 {
 	delete m_pPlayer;
 	delete m_pEnemyManager;
-	delete m_pMap;
+	MapManager::DeleteInstance();
 }
 
 TAG_SCENE PlayScene::Update()
 {
 	m_pPlayer->Update();
-	m_pEnemyManager->SetMapPosX(m_pMap->GetPosX());
 	m_pEnemyManager->Update();
 
 	// マップ移動判定
@@ -42,7 +43,12 @@ void PlayScene::Draw()
 {
 	m_pMap->Draw();
 	DrawGraph(0, 0, mStatusImg, FALSE);
-	DrawFormatString(20, 10, GetColor(255, 255, 255), "%s", m_pPlayer->GetPlayerName().c_str());
+	DrawGraph(1300, 10, mConfigImg, TRUE);
+	DrawBox(20, 70, 250, 100, GetColor(0, 255, 0), TRUE);
+	DrawBox(20, 70, 250, 100, GetColor(255, 255, 255), FALSE);
+	DrawBox(20, 110, 180, 140, GetColor(241, 90, 34), TRUE);
+	DrawBox(20, 110, 180, 140, GetColor(255, 255, 255), FALSE);
+	DrawFormatString(30, 20, GetColor(255, 255, 255), "%s", m_pPlayer->GetPlayerName().c_str());
 	m_pEnemyManager->Draw();
 	m_pPlayer->Draw();
 }
@@ -52,16 +58,16 @@ void PlayScene::MapMove()
 	// 右端時のマップ移動
 	if (m_pPlayer->GetPosX() > 1850)
 	{
-		if (m_pMap->GetNowMap() == MapScene::MAP_1) { m_pMap->Init(MapScene::MAP_2); }
-		if (MapScene::MAP_4 == m_pMap->GetNowMap()) { m_pPlayer->SetPosY(720); }
+		if (MapManager::GetNowMap() == MapScene::MAP_1) { MapManager::Init(MapScene::MAP_2); }
+		if (MapScene::MAP_4 == MapManager::GetNowMap()) { m_pPlayer->SetPosY(720); }
 		m_pPlayer->SetPosX(0);
 		mLeftEndFlag = false;
 	}
 	// 左端時のマップ移動
 	if (m_pPlayer->GetPosX() < 0)
 	{
-		if (MapScene::MAP_1 == m_pMap->GetNowMap()) { m_pPlayer->SetPosX(0); }
-		else {}
+		if (MapScene::MAP_1 == MapManager::GetNowMap()) { m_pPlayer->SetPosX(0); }
+		else if (MapScene::MAP_2 == MapManager::GetNowMap()) { MapManager::Init(MapScene::MAP_1); m_pPlayer->SetPosX(1850); }
 	}
 
 	// 画面3分の2の右に移動時スクロール処理
@@ -75,7 +81,7 @@ void PlayScene::MapMove()
 	{
 		Collision::SetMapMoveRightFlag(false);
 	}
-	if (m_pMap->GetPosX3() > 1)
+	if (MapManager::GetMap3PosX() > 1)
 	{
 		mRightEndFlag = true;
 	}
@@ -95,7 +101,7 @@ void PlayScene::MapMove()
 	{
 	Collision::SetMapMoveLeftFlag(false);
 	}
-	if (m_pMap->GetPosX() < -0.1f)
+	if (MapManager::GetMapPosX() < -0.1f)
 	{
 		mLeftEndFlag = true;
 	}

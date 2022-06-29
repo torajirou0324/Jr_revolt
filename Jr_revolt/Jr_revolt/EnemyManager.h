@@ -19,10 +19,6 @@ public:
 	void Update();
 	void Draw();
 
-	// セッター
-	void SetMapPosX(const float& _posX) { mMapPosX = _posX; }
 private:
 	ZombiManager* m_pZombi;
-
-	float mMapPosX;
 };

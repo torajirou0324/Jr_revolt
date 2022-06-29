@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Input.h"
 #include "Collision.h"
+#include "MapManager.h"
 
 Player::Player(float x, float y)
 	: mImgNum(0)
@@ -12,8 +13,9 @@ Player::Player(float x, float y)
 	, mPosX(x)
 	, mPosY(y)
 	, mSpeed(0.0f)
-	, mVelocity(0.0f)
-	, mJampFlag(true)
+	, mVelocityX(0.0f)
+	, mVelocityY(0.0f)
+	, mJumpFlag(false)
 	, mAttackFlag(false)
 	, mPlayerVecFlag(true)
 	, mDamageFlag(false)
@@ -45,16 +47,16 @@ Player::~Player()
 void Player::Update()
 {
 	// プレイヤーの移動処理(ジャンプ中・攻撃中・被弾中は移動を受付ない)
-	if (mJampFlag && !mAttackFlag && !mDamageFlag)
+	if (mJumpFlag && !mAttackFlag && !mDamageFlag)
 	{
 		if (Input::IsPressed(LEFT))
 		{
-			mSpeed = -1.8f;
+			mSpeed = -1.5f;
 			mPlayerVecFlag = false;
 		}
 		if (Input::IsPressed(RIGHT))
 		{
-			mSpeed = 1.8f;
+			mSpeed = 1.5f;
 			mPlayerVecFlag = true;
 		}
 		if (Input::NoPressed(LEFT) && Input::NoPressed(RIGHT))
@@ -63,26 +65,40 @@ void Player::Update()
 		}
 	}
 	mPosX += mSpeed;
-	//if (mPosX < 0) { mPosX = 0.0f; }
-	//if (mPosX > 1770) { mPosX = 1770.0f; }
+	if (mJumpFlag) { mDamageFlag = false; mVelocityX = 0.0f; }
 
 	// プレイヤーと敵が当たっているかどうかの取得
-	mDamageFlag = Collision::GetPlayerDamageFlag();
+	if(!mDamageFlag){ mDamageFlag = Collision::GetPlayerDamageFlag(); }
+	if (mDamageFlag && mJumpFlag)
+	{
+		if (Collision::GetHitEnemyPosX() < mPosX) { mVelocityX = 5.5; }
+		else { mVelocityX = -5.5f; }
+		mSpeed = 0;
+		mVelocityY = -4.0f;
+		mJumpFlag = false;
+	}
 
 	// 地面についているときジャンプを有効にする
-	if (Input::IsPressed(SPACE) && mJampFlag)
+	if (Input::IsPressed(SPACE) && mJumpFlag)
 	{
-		mVelocity = -5.5f;
-		mJampFlag = false;
+		mPosY -= 8.0f;
+		mVelocityY = -5.5f;
+		mJumpFlag = false;
 	}
 	// 空中にいるとき
-	if (!mJampFlag)
+	if (!mJumpFlag)
 	{
-		mVelocity += 0.1f;
-		mPosY += mVelocity;
-		if (mVelocity > 6.0f)
+		if (mDamageFlag)
 		{
-			mVelocity = 6.0f;
+			if (Collision::GetHitEnemyPosX() < mPosX) { mVelocityX -= 0.1f; if (mVelocityX < 0) { mVelocityX = 0.0f; } }
+			else { mVelocityX += 0.1f; if (mVelocityX > 0) { mVelocityX = 0.0f; } }
+		}
+		mVelocityY += 0.1f;
+		mPosX += mVelocityX;
+		mPosY += mVelocityY;
+		if (mVelocityY > 6.0f)
+		{
+			mVelocityY = 6.0f;
 		}
 	}
 
@@ -93,7 +109,7 @@ void Player::Update()
 		mImgNum = 0;
 		mImgCount = 0;
 	}
-	if (mAttackFlag && mJampFlag) { mSpeed = 0; }
+	if (mAttackFlag && mJumpFlag) { mSpeed = 0; }
 	//　プレイヤーが攻撃しているかしていないかをセット
 	Collision::PlayerAttackFlag(mAttackFlag);
 

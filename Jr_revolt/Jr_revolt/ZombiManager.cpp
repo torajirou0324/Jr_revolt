@@ -6,7 +6,6 @@
 #include "Zombi.h"
 
 ZombiManager::ZombiManager()
-	: mMapPosX(0)
 {
 	// •¶Žš—ñ‚ðŽg‚Á‚½“Ç‚Ýž‚Ý
 	const char job[] = "zonbi_idou";
@@ -51,7 +50,6 @@ void ZombiManager::Update()
 {
 	for (auto it : m_pZombi)
 	{
-		it->SetMapPosX(mMapPosX);
 		it->Update();
 	}
 }
@@ -60,13 +58,38 @@ void ZombiManager::Draw()
 {
 	for (auto it: m_pZombi)
 	{
-		if (it->GetVecFlag())
+		if (it->GetMoveFlag())
 		{
-			DrawGraphF(it->GetPosX(), it->GetPosY(), mZombiImg[it->GetImgNum()], TRUE);
+			if (it->GetVecFlag())
+			{
+				DrawGraphF(it->GetPosX(), it->GetPosY(), mZombiMoveImg[it->GetImgNum()], TRUE);
+			}
+			else
+			{
+				DrawTurnGraphF(it->GetPosX(), it->GetPosY(), mZombiMoveImg[it->GetImgNum()], TRUE);
+			}
+		}
+		else if (it->GetAttackFlag())
+		{
+			if (it->GetVecFlag())
+			{
+				DrawGraphF(it->GetPosX(), it->GetPosY(), mZombiAttackImg[it->GetImgNum()], TRUE);
+			}
+			else
+			{
+				DrawTurnGraphF(it->GetPosX(), it->GetPosY(), mZombiAttackImg[it->GetImgNum()], TRUE);
+			}
 		}
 		else
 		{
-			DrawTurnGraphF(it->GetPosX(), it->GetPosY(), mZombiImg[it->GetImgNum()], TRUE);
+			if (it->GetVecFlag())
+			{
+				DrawGraphF(it->GetPosX(), it->GetPosY(), mZombiImg[it->GetImgNum()], TRUE);
+			}
+			else
+			{
+				DrawTurnGraphF(it->GetPosX(), it->GetPosY(), mZombiImg[it->GetImgNum()], TRUE);
+			}
 		}
 		DrawFormatString(500, 20, GetColor(255, 255, 255), "%d", it->GetPosX());
 	}

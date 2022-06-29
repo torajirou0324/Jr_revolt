@@ -3,13 +3,13 @@
 class Collision
 {
 	static Collision* AABB;
-	int mPlayerX;
-	int mPlayerY;
-	int mMapX;
-	int mMapX3;
+	float mPlayerX;
+	float mPlayerY;
+	float mEnemyX;
 
 	bool mPlayerAttackFlag;
 	bool mPlayerDamageFlag;
+	bool mPlayerHitVecFlag;
 	bool mEnemyDamageFlag;
 	bool mMapMoveLeftFlag;
 	bool mMapMoveRightFlag;
@@ -35,7 +35,7 @@ public:
 	}
 
 	// セッター
-	static void PlayerUpdate(const int& _playerX, const int& _playerY)
+	static void PlayerUpdate(const float& _playerX, const float& _playerY)
 	{
 		AABB->mPlayerX = _playerX;
 		AABB->mPlayerY = _playerY;
@@ -43,11 +43,6 @@ public:
 	static void PlayerAttackFlag(const bool& _playerAttackFlag)
 	{
 		AABB->mPlayerAttackFlag = _playerAttackFlag;
-	}
-	static void SetMapPosX(const int& _mapX, const int& _mapX3)
-	{
-		AABB->mMapX = _mapX;
-		AABB->mMapX3 = _mapX3;
 	}
 	static void SetMapMoveLeftFlag(const bool& _flag)
 	{
@@ -59,7 +54,7 @@ public:
 	}
 	
 	// ゲッター
-	const static void PlayerCollision(const int& _enemyX, const int& _enemyY,const int& size_x,const int& size_y)
+	const static void PlayerCollision(const float& _enemyX, const float& _enemyY,const int& size_x,const int& size_y)
 	{
 		if (((_enemyX >= AABB->mPlayerX + 40 && _enemyX <= AABB->mPlayerX + 110) ||
 			(AABB->mPlayerX + 40 >= _enemyX && AABB->mPlayerX + 40 <= _enemyX + size_x)) &&
@@ -67,6 +62,7 @@ public:
 				(AABB->mPlayerY > _enemyY && AABB->mPlayerY < _enemyY + size_y)))
 		{
 			AABB->mPlayerDamageFlag = true;
+			AABB->mEnemyX = _enemyX;
 		}
 		else
 		{
@@ -87,12 +83,12 @@ public:
 			return false;
 		}
 	}
-	const static int& GetPlayerX() { return AABB->mPlayerX; }
-	const static int& GetPlayerY() { return AABB->mPlayerY; }
-	const static int& GetMapX() { return AABB->mMapX; }
-	const static int& GetMapX3() { return AABB->mMapX3; }
+	const static float& GetPlayerX() { return AABB->mPlayerX; }
+	const static float& GetPlayerY() { return AABB->mPlayerY; }
+	const static float& GetHitEnemyPosX() { return AABB->mEnemyX; }
 	const static bool& GetPlayerDamageFlag() { return AABB->mPlayerDamageFlag; }
 	const static bool& GetAttackFlag() { return AABB->mPlayerAttackFlag; }
+	const static bool& GetPlayerHitVecFlag() { return AABB->mPlayerHitVecFlag; }
 	const static bool& GetMapMoveLeftFlag() { return AABB->mMapMoveLeftFlag; }
 	const static bool& GetMapMoveRightFlag() { return AABB->mMapMoveRightFlag; }
 };

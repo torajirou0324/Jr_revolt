@@ -21,6 +21,7 @@ private:
 	MapManager* m_pMap;
 
 	int mStatusImg;
+	int mConfigImg;
 
 	bool mLeftEndFlag;
 	bool mRightEndFlag;
