@@ -4,6 +4,7 @@
 
 Zombi::Zombi(int posX, int posY)
 {
+	state = IDLE;
 	mPosX = posX;
 	mPosY = posY;
 	mImgNum = 0;
@@ -13,6 +14,7 @@ Zombi::Zombi(int posX, int posY)
 	mVecFlag = true;
 	mMoveFlag = true;
 	mAttackFlag = false;
+	mDamageFlag = false;
 }
 
 Zombi::~Zombi()
@@ -35,49 +37,30 @@ void Zombi::Update()
 			{
 				mPosX -= 20.0f;
 			}
-			mVelocity = -3.5f;
+			mVelocity = -5.5f;
 			mFallFlag = false;
+			mDamageFlag = true;
+			state = IDLE;
 		}
 	}
-	if (Collision::GetPlayerDamageFlag())
+	else if(mFallFlag)
 	{
+		mDamageFlag = false;
+	}
 
-	}
-	else
+	switch (state)
 	{
-		if (Collision::GetMapMoveLeftFlag())
-		{
-			if (mVecFlag)
-			{
-				mPosX += 0.5f;
-			}
-			else
-			{
-				mPosX += 2.5f;
-			}
-		}
-		if (Collision::GetMapMoveRightFlag())
-		{
-			if (mVecFlag)
-			{
-				mPosX -= 2.5f;
-			}
-			else
-			{
-				mPosX -= 0.5f;
-			}
-		}
-		if (!Collision::GetMapMoveLeftFlag() && !Collision::GetMapMoveRightFlag())
-		{
-			if (mVecFlag)
-			{
-				mPosX--;
-			}
-			else
-			{
-				mPosX++;
-			}
-		}
+	case Zombi::IDLE:
+		Idle();
+		break;
+	case Zombi::MOVE:
+		Move();
+		break;
+	case Zombi::ATTACK:
+		Attack();
+		break;
+	default:
+		break;
 	}
 
 	auto MapFrontX = MapManager::GetMapPosX();
@@ -87,9 +70,9 @@ void Zombi::Update()
 		mVecFlag = false;
 	}
 	MapFrontX = MapManager::GetMap3PosX();
-	if (mPosX > MapFrontX + 1920.0f)
+	if (mPosX > MapFrontX + 1850.0f)
 	{
-		mPosX = MapFrontX + 1920.0f;
+		mPosX = MapFrontX + 1850.0f;
 		mVecFlag = true;
 	}
 	mFallFlag = MapManager::CollisionManager(mPosX, mPosY);
@@ -103,6 +86,96 @@ void Zombi::Update()
 			mVelocity = 6.0f;
 		}
 	}
+}
+
+void Zombi::StateManager()
+{
+	// ステート処理
+	if (!mVecFlag)
+	{
+		if (mPosX + 90 + 90 > Collision::GetPlayerX() && mPosX + 90 < Collision::GetPlayerX())
+		{
+			state = ATTACK;
+		}
+		if (mPosX + 90 + 400 < Collision::GetPlayerX() && mPosX + 90 + 90 < Collision::GetPlayerX())
+		{
+			state = MOVE;
+		}
+		else if(mPosX < Collision::GetPlayerX())
+		{
+			state = IDLE;
+		}
+	}
+	else
+	{
+		if (mPosX - 100 > Collision::GetPlayerX() && mPosX < Collision::GetPlayerX())
+		{
+			state = ATTACK;
+		}
+		if (mPosX - 400 < Collision::GetPlayerX() && mPosX - 100 > Collision::GetPlayerX())
+		{
+			state = MOVE;
+		}
+		else if(mPosX - 100 > Collision::GetPlayerX())
+		{
+			state = IDLE;
+		}
+	}
+}
+
+void Zombi::Idle()
+{
+	mCount++;
+	if (mCount > 20)
+	{
+		mImgNum++;
+		if (mImgNum > 2 && mMoveFlag)
+		{
+			mImgNum = 0;
+		}
+		mCount = 0;
+	}
+	mMoveFlag = false;
+	mAttackFlag = false;
+	StateManager();
+}
+
+void Zombi::Move()
+{
+	// ステート処理
+	if (Collision::GetMapMoveLeftFlag())
+	{
+		if (mVecFlag)
+		{
+			mPosX += 0.5f;
+		}
+		else
+		{
+			mPosX += 2.5f;
+		}
+	}
+	if (Collision::GetMapMoveRightFlag())
+	{
+		if (mVecFlag)
+		{
+			mPosX -= 2.5f;
+		}
+		else
+		{
+			mPosX -= 0.5f;
+		}
+	}
+	if (!Collision::GetMapMoveLeftFlag() && !Collision::GetMapMoveRightFlag())
+	{
+		if (mVecFlag)
+		{
+			mPosX--;
+		}
+		else
+		{
+			mPosX++;
+		}
+	}
 
 	mCount++;
 	if (mCount > 20)
@@ -114,4 +187,24 @@ void Zombi::Update()
 		}
 		mCount = 0;
 	}
+	mMoveFlag = true;
+	mAttackFlag = false;
+	StateManager();
+}
+
+void Zombi::Attack()
+{
+	mCount++;
+	if (mCount > 20)
+	{
+		mImgNum++;
+		if (mImgNum > 3 && mMoveFlag)
+		{
+			mImgNum = 0;
+		}
+		mCount = 0;
+	}
+	mMoveFlag = false;
+	mAttackFlag = true;
+	StateManager();
 }

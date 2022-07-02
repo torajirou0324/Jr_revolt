@@ -34,14 +34,14 @@ TAG_SCENE PlayScene::Update()
 	MapMove();
 	auto px = m_pPlayer->GetPosX();
 	auto py = m_pPlayer->GetPosY();
-	m_pPlayer->SetJumpFlag(m_pMap->CollisionManager(px, py));
+	m_pPlayer->SetJumpFlag(MapManager::CollisionManager(px, py));
 
 	return TAG_SCENE::TAG_NONE;
 }
 
 void PlayScene::Draw()
 {
-	m_pMap->Draw();
+	MapManager::Draw();
 	DrawGraph(0, 0, mStatusImg, FALSE);
 	DrawGraph(1300, 10, mConfigImg, TRUE);
 	DrawBox(20, 70, 250, 100, GetColor(0, 255, 0), TRUE);
@@ -74,7 +74,7 @@ void PlayScene::MapMove()
 	if (m_pPlayer->GetPosX() > 1200.0f && mRightEndFlag)
 	{
 		m_pPlayer->SetPosX(1200.0f);
-		m_pMap->MapXMove(m_pPlayer->GetSpeed());
+		MapManager::MapXMove(m_pPlayer->GetSpeed());
 		Collision::SetMapMoveRightFlag(true);
 	}
 	else
@@ -94,7 +94,7 @@ void PlayScene::MapMove()
 	if (m_pPlayer->GetPosX() < 600.0f && mLeftEndFlag)
 	{
 		m_pPlayer->SetPosX(600.0f);
-		m_pMap->MapXMove(m_pPlayer->GetSpeed());
+		MapManager::MapXMove(m_pPlayer->GetSpeed());
 		Collision::SetMapMoveLeftFlag(true);
 	}
 	else

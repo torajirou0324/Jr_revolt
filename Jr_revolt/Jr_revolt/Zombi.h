@@ -7,6 +7,10 @@ public:
 	~Zombi();
 
 	void Update();
+	void StateManager();
+	void Idle();
+	void Move();
+	void Attack();
 
 	// セッター
 	void SetFallFlag(const bool& _flag) { mFallFlag = _flag; }
@@ -18,6 +22,13 @@ public:
 	const bool& GetAttackFlag()const { return mAttackFlag; }
 	const bool& GetMoveFlag()const { return mMoveFlag; }
 private:
+	enum State
+	{
+		IDLE,
+		MOVE,
+		ATTACK
+	};
+	State state;
 
 	int mImgNum;
 	int mCount;

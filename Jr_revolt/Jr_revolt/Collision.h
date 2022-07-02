@@ -71,16 +71,33 @@ public:
 	}
 	const static bool& EnemyCollision(const int& _enemyX, const int& _enemyY, const int& size_x, const int& size_y)
 	{
-		if (((_enemyX >= AABB->mPlayerX + 110 && _enemyX <= AABB->mPlayerX + 150) ||
-			(AABB->mPlayerX + 110 >= _enemyX && AABB->mPlayerX + 110 <= _enemyX + size_x)) &&
-			((_enemyY > AABB->mPlayerY && _enemyY < AABB->mPlayerY + 180) ||
-				(AABB->mPlayerY > _enemyY && AABB->mPlayerY < _enemyY + size_y)))
+		if (AABB->mPlayerX + 120 < _enemyX)
 		{
-			return true;
+			if (((_enemyX > AABB->mPlayerX + 110 && _enemyX < AABB->mPlayerX + 200) ||
+				(AABB->mPlayerX + 110 > _enemyX && AABB->mPlayerX + 110 < _enemyX + size_x)) &&
+				((_enemyY > AABB->mPlayerY && _enemyY < AABB->mPlayerY + 100) ||
+					(AABB->mPlayerY > _enemyY && AABB->mPlayerY < _enemyY + size_y)))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		else
 		{
-			return false;
+			if (((_enemyX > AABB->mPlayerX + 20 && _enemyX < AABB->mPlayerX + - 70) ||
+				(AABB->mPlayerX + 20 > _enemyX && AABB->mPlayerX + -70 < _enemyX + size_x)) &&
+				((_enemyY > AABB->mPlayerY && _enemyY < AABB->mPlayerY + 100) ||
+					(AABB->mPlayerY > _enemyY && AABB->mPlayerY < _enemyY + size_y)))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 	const static float& GetPlayerX() { return AABB->mPlayerX; }

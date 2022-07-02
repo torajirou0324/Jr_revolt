@@ -69,7 +69,7 @@ void ZombiManager::Draw()
 				DrawTurnGraphF(it->GetPosX(), it->GetPosY(), mZombiMoveImg[it->GetImgNum()], TRUE);
 			}
 		}
-		else if (it->GetAttackFlag())
+		if (it->GetAttackFlag())
 		{
 			if (it->GetVecFlag())
 			{
@@ -80,7 +80,7 @@ void ZombiManager::Draw()
 				DrawTurnGraphF(it->GetPosX(), it->GetPosY(), mZombiAttackImg[it->GetImgNum()], TRUE);
 			}
 		}
-		else
+		if(!it->GetMoveFlag() && !it->GetAttackFlag())
 		{
 			if (it->GetVecFlag())
 			{

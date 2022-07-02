@@ -69,10 +69,10 @@ void Player::Update()
 
 	// ÉvÉåÉCÉÑÅ[Ç∆ìGÇ™ìñÇΩÇ¡ÇƒÇ¢ÇÈÇ©Ç«Ç§Ç©ÇÃéÊìæ
 	if(!mDamageFlag){ mDamageFlag = Collision::GetPlayerDamageFlag(); }
-	if (mDamageFlag && mJumpFlag)
+	if (mDamageFlag)
 	{
-		if (Collision::GetHitEnemyPosX() < mPosX) { mVelocityX = 5.5; }
-		else { mVelocityX = -5.5f; }
+		if (Collision::GetHitEnemyPosX() < mPosX) { mVelocityX = 3.5; }
+		else { mVelocityX = -3.5f; }
 		mSpeed = 0;
 		mVelocityY = -4.0f;
 		mJumpFlag = false;
@@ -93,6 +93,7 @@ void Player::Update()
 			if (Collision::GetHitEnemyPosX() < mPosX) { mVelocityX -= 0.1f; if (mVelocityX < 0) { mVelocityX = 0.0f; } }
 			else { mVelocityX += 0.1f; if (mVelocityX > 0) { mVelocityX = 0.0f; } }
 		}
+		mDamageFlag = false;
 		mVelocityY += 0.1f;
 		mPosX += mVelocityX;
 		mPosY += mVelocityY;
@@ -189,10 +190,13 @@ void Player::Draw()
 		if (mPlayerVecFlag)
 		{
 			DrawGraphF(mPosX -30.0f, mPosY, mPlayerAttackImg[mImgNum], TRUE);
+			DrawBox(mPosX + 110, mPosY, mPosX + 200, mPosY + 100, GetColor(255, 0, 0), FALSE);
 		}
 		else
 		{
 			DrawTurnGraphF(mPosX -30.0f, mPosY, mPlayerAttackImg[mImgNum], TRUE);
+			DrawBox(mPosX + 20, mPosY, mPosX + -70, mPosY + 100, GetColor(255, 0, 0), FALSE);
 		}
 	}
+
 }
